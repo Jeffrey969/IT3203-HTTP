@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTTP Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+    }
+    .correct {
+      color: green;
+    }
+    .wrong {
+      color: red;
+    }
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>HTTP Quiz</h1>
+
+  <form id="quizForm">
+    <!-- Question 1 -->
+    <div class="question">
+      <p>1. What does HTTP stand for?</p>
+      <label><input type="radio" name="q1" value="a" /> a) HyperText Transfer Protocol ✅</label><br>
+      <label><input type="radio" name="q1" value="b" /> b) Hyperlink Text Protocol</label><br>
+      <label><input type="radio" name="q1" value="c" /> c) HighText Transfer Platform</label>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question">
+      <p>2. Which HTTP method is used to retrieve data?</p>
+      <label><input type="radio" name="q2" value="a" /> a) POST</label><br>
+      <label><input type="radio" name="q2" value="b" /> b) GET ✅</label><br>
+      <label><input type="radio" name="q2" value="c" /> c) PUT</label>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question">
+      <p>3. What is the default port for HTTP?</p>
+      <label><input type="radio" name="q3" value="a" /> a) 22</label><br>
+      <label><input type="radio" name="q3" value="b" /> b) 443</label><br>
+      <label><input type="radio" name="q3" value="c" /> c) 80 ✅</label>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question">
+      <p>4. Fill in the blank: HTTP is a ______ protocol.</p>
+      <input type="text" name="q4" placeholder="Your answer here" />
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question">
+      <p>5. Which of the following are HTTP methods? (Choose all that apply)</p>
+      <label><input type="checkbox" name="q5" value="GET" /> GET ✅</label><br>
+      <label><input type="checkbox" name="q5" value="FETCH" /> FETCH</label><br>
+      <label><input type="checkbox" name="q5" value="POST" /> POST ✅</label><br>
+      <label><input type="checkbox" name="q5" value="DELETE" /> DELETE ✅</label>
+    </div>
+
+    <button type="button" onclick="gradeQuiz()">Submit</button>
+    <button type="button" onclick="restartQuiz()">Restart</button>
+  </form>
+
+  <div class="result" id="resultBox" style="display: none;"></div>
+
+  <script>
+    function gradeQuiz() {
+      let score = 0;
+      const resultBox = document.getElementById('resultBox');
+      resultBox.innerHTML = "";
+
+      // Q1
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      if (q1 && q1.value === "a") {
+        score++;
+        resultBox.innerHTML += "<p class='correct'>Q1: Correct</p>";
+      } else {
+        resultBox.innerHTML += "<p class='wrong'>Q1: Wrong (Correct: a)</p>";
+      }
+
+      // Q2
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      if (q2 && q2.value === "b") {
+        score++;
+        resultBox.innerHTML += "<p class='correct'>Q2: Correct</p>";
+      } else {
+        resultBox.innerHTML += "<p class='wrong'>Q2: Wrong (Correct: b)</p>";
+      }
+
+      // Q3
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      if (q3 && q3.value === "c") {
+        score++;
+        resultBox.innerHTML += "<p class='correct'>Q3: Correct</p>";
+      } else {
+        resultBox.innerHTML += "<p class='wrong'>Q3: Wrong (Correct: c)</p>";
+      }
+
+      // Q4
+      const q4 = document.querySelector('input[name="q4"]').value.trim().toLowerCase();
+      if (q4 === "stateless") {
+        score++;
+        resultBox.innerHTML += "<p class='correct'>Q4: Correct</p>";
+      } else {
+        resultBox.innerHTML += "<p class='wrong'>Q4: Wrong (Correct: stateless)</p>";
+      }
+
+      // Q5
+      const q5 = document.querySelectorAll('input[name="q5"]:checked');
+      const selectedValues = Array.from(q5).map(cb => cb.value);
+      const correctAnswers = ["GET", "POST", "DELETE"];
+      const isCorrect = correctAnswers.every(val => selectedValues.includes(val)) && selectedValues.length === 3;
+      if (isCorrect) {
+        score++;
+        resultBox.innerHTML += "<p class='correct'>Q5: Correct</p>";
+      } else {
+        resultBox.innerHTML += "<p class='wrong'>Q5: Wrong (Correct: GET, POST, DELETE)</p>";
+      }
+
+      // Final score
+      resultBox.innerHTML += `<hr><p><strong>Total Score: ${score}/5</strong></p>`;
+      resultBox.innerHTML += `<p><strong>${score >= 3 ? "Pass ✅" : "Fail ❌"}</strong></p>`;
+      resultBox.style.display = "block";
+    }
+
+    function restartQuiz() {
+      document.getElementById("quizForm").reset();
+      document.getElementById("resultBox").style.display = "none";
+    }
+  </script>
+</body>
+</html>
